@@ -1,0 +1,26 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+steps:
+# 1. El paso de checkout debe persistir las credenciales para poder hacer 'push'
+- checkout: self
+  persistCredentials: true
+
+# 2. Tarea para ejecutar tus comandos Git
+- script: |
+    # Configuración de identidad (obligatoria para commits)
+    git config --global user.email "noe15lm@hotmail.es"
+    git config --global user.name "noelopmed32"
+
+    # Cambiar a la rama deseada (Azure Pipelines suele descargar en estado 'detached HEAD')
+    git checkout master
+
+    # Agregar archivos y realizar commit (git --add all corregido a git add .)
+    git add .
+    git commit -m "Cambios automáticos desde el pipeline [skip ci]"
+
+    # Push al repositorio remoto (GitHub en tu caso)
+    # Nota: Asegúrate de que el token de GitHub esté configurado como una variable secreta
+    git push https://$(github)@://github.com/demogitazuredevops/demogits.git
+  displayName: 'Ejecutar comandos Git y Push'
